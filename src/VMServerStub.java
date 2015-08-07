@@ -68,6 +68,9 @@ public class VMServerStub implements Runnable {
 						} else if (command.equals(Const.GET_ITEM_IDS)) {
 							String result = employee.getItemIDs();
 							response = Const.OK + result;
+						} else if (command.equals(Const.GET_OTHER_ITEM_IDS)) {
+							String result = employee.getOtherItemIDs(Integer.parseInt(tokens[1]));		//machineid
+							response = Const.OK + result;
 						} else if (command.equals(Const.GET_ITEM)) {
 							String result = employee.getItem(Integer.parseInt(tokens[1])); //itemid
 							response = Const.OK + result;

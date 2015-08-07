@@ -8,6 +8,7 @@ public interface DBManager {
 	public void deleteItem(int code) throws Exception;
 	public void updateItem(Item item) throws Exception;
 	public ArrayList<Item> getAllItems();
+	public ArrayList<Item> getOtherItems(int machine);
 	public Item getItem(int code);
 	public int addEmployee(Employee e) throws Exception;
 	public void deleteEmployee(int code) throws Exception;

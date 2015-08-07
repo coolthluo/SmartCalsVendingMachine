@@ -55,6 +55,15 @@ public class BasicServer implements CustomerServer, EmployeeServer, MachineServe
 		return result.substring(0, result.length()-1);
 	}
 	
+	public String getOtherItemIDs(int machine) {
+		ArrayList<Item> items = dbm.getOtherItems(machine);
+		String result = "";
+		for (int i = 0; i < items.size(); i++){
+			result += items.get(i).getID() + " ";
+		}
+		return result.substring(0, result.length()-1);
+	}
+	
 	public String getItem(int code) throws Exception {
 		Item item = dbm.getItem(code);
 		JSONObject obj = new JSONObject();

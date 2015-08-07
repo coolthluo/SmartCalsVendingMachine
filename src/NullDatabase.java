@@ -22,6 +22,11 @@ public class NullDatabase implements DBManager {
 		return items;
 	}
 
+	public ArrayList<Item> getOtherItems(int machine){
+		ArrayList<Item> items = new ArrayList<Item>();
+		return items;
+	}
+
 	public Item getItem(int code) {
 		Item item = new Item(0, "", "", "", "", 0, "");
 		return item;

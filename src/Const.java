@@ -15,6 +15,7 @@ public class Const {
 	public final static String AUTHENTICATE = "AUTH";
     public final static String CHECK_MACHINE = "CHECK_MACHINE";
 	public final static String GET_ITEM_IDS = "GET_ITEM_IDS";
+	public final static String GET_OTHER_ITEM_IDS = "GET_OTHER_ITEM_IDS";
     public final static String GET_ITEM = "GET_ITEM";
     public final static String ADD_MACHINE = "ADD_MACHINE";
     public final static String ADD_ITEM_TO_MACHINE = "ADD_ITEM_TO_MACHINE";

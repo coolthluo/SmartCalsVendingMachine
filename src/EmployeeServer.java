@@ -7,6 +7,8 @@ public interface EmployeeServer extends Server {
 	
 	public String getItemIDs() throws Exception;
 	
+	public String getOtherItemIDs(int machine) throws Exception;
+	
 	public String getItem(int item) throws Exception;
 
 	public int addMachine(int machine, String address)

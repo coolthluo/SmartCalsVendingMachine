@@ -112,6 +112,20 @@ public class Database implements DBManager {
 		}
 		return item;
 	}
+	
+	public ArrayList<Item> getOtherItems(int machine) {
+		ArrayList<Item> items = new ArrayList<Item>();
+		try {
+			ResultSet rs = select("SELECT * FROM items where items.ID not in (select itemid from machine_item where machineid = " + machine + ");");
+			while (rs.next()) {
+				items.add(new Item(rs));
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return items;
+	}
 
 	public int addEmployee(Employee e) throws Exception {
 		Connection conn = DriverManager.getConnection(connection, property);
