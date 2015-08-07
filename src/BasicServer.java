@@ -69,10 +69,10 @@ public class BasicServer implements CustomerServer, EmployeeServer, MachineServe
 		JSONObject obj = new JSONObject();
 		obj.put("id", item.getID());
 		obj.put("name", item.getName());
+		obj.put("price", item.getPrice());
 		obj.put("type", item.getType());
 		obj.put("info", item.getInfo());
 		obj.put("pic", item.getPic());
-		obj.put("price", item.getPrice());
 		return obj.toString();
 	}
 

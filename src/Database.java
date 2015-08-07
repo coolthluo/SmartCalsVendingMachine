@@ -51,10 +51,10 @@ public class Database implements DBManager {
 		}
 		stmt.executeUpdate("INSERT INTO items VALUES (" + code
 				+ ", '" + item.getName()
-				+ "', '" + item.getType()
-				+ "', '" + item.getInfo()
 				+ "', " + item.getPrice()
-				+ ", '" + item.getLastMod() + "');");
+				+ ", '" + item.getType()
+				+ "', '" + item.getInfo()
+				+ "', '" + item.getLastMod() + "');");
 		conn.commit();
 		conn.close();
 		return code;
@@ -76,10 +76,11 @@ public class Database implements DBManager {
 		Statement stmt = conn.createStatement(
 				ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		stmt.executeUpdate("UPDATE items SET name = '" + item.getName()
-				+ "', type='" + item.getType()
-				+ "', info='" + item.getInfo()
 				+ "', price=" + item.getPrice()
-				+ ", lastmod='" + item.getLastMod()
+				+ ", type='" + item.getType()
+				+ "', info='" + item.getInfo()
+				+ "', pic='" + item.getPic()
+				+ "', lastmod='" + item.getLastMod()
 				+ "' WHERE ID=" + item.getID() + ";");
 		conn.commit();
 		conn.close();

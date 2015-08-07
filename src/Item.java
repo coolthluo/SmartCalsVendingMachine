@@ -5,29 +5,29 @@ import java.sql.ResultSet;
 public class Item {
 	private int code;
 	private String name;
+	private double price;
 	private String type;
 	private String info;
 	private String picture;
-	private double price;
 	private String lastmod;
 
-	public Item(int c, String n, String t, String i, String pi, double p, String d) {
+	public Item(int c, String n, String pi, String t, String i, double p, String d) {
 		code = c;
 		name = n;
+		price = p;
 		type = t;
 		info = i;
 		picture = pi;
-		price = p;
 		lastmod = d;
 	}
 
 	public Item(ResultSet rs) throws java.sql.SQLException {
 		code = rs.getInt("ID");
 		name = rs.getString("name");
+		price = rs.getDouble("price");
 		type = rs.getString("type");
 		info = rs.getString("info");
 		picture = rs.getString("picture");
-		price = rs.getDouble("price");
 		lastmod = rs.getDate("lastmod").toString();
 	}
 
@@ -37,6 +37,10 @@ public class Item {
 
 	public String getName() {
 		return name;
+	}
+
+	public double getPrice() {
+		return price;
 	}
 
 	public String getType() {
@@ -49,10 +53,6 @@ public class Item {
 	
 	public String getPic() {
 		return picture;
-	}
-
-	public double getPrice() {
-		return price;
 	}
 
 	public String getLastMod() {

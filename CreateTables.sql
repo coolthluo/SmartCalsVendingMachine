@@ -8,10 +8,10 @@ DROP TABLE IF EXISTS items;
 CREATE TABLE items (
 ID INT NOT NULL PRIMARY KEY,
 name VARCHAR(30),
+price DECIMAL(10, 2),
 type VARCHAR(30),
 info VARCHAR(30),
 picture VARCHAR(30),
-price DECIMAL(10, 2),
 lastmod DATETIME
 );
 
