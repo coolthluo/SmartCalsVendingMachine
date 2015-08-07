@@ -304,7 +304,7 @@ public class Database implements DBManager {
 		ArrayList<Item> items = new ArrayList<Item>();
 		try {
 			ResultSet rs = select("SELECT * FROM items, machine_item WHERE items.ID = machine_item.itemid AND machine_item.machineid=" + code
-					+ " AND items.lastmod > (SELECT lastsync FROM machines WHERE ID=" + code + ");");
+					+ " AND items.lastmod > (SELECT date(lastsync) FROM machines WHERE ID=" + code + ");");
 			while (rs.next()) {
 				items.add(new Item(rs));
 			}
@@ -316,13 +316,13 @@ public class Database implements DBManager {
 		return items;
 	}
 
-	public void addSale(int machine, int item, String date) throws Exception {
+	public void addSale(int machine, int item, double profit, String date) throws Exception {
 		Connection conn = DriverManager.getConnection(connection, property);
 		conn.setAutoCommit(false);
 		Statement stmt = conn.createStatement(
 				ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		stmt.executeUpdate("INSERT INTO sales (machineid,itemid,date) VALUES ("
-				+ machine + ", " + item + ", '" + date + "');");
+		stmt.executeUpdate("INSERT INTO sales (machineid,itemid,profit,date) VALUES ("
+				+ machine + ", " + item + ", " + profit + ", '" + date + "');");
 		conn.commit();
 		conn.close();
 	}
@@ -357,7 +357,7 @@ public class Database implements DBManager {
 		}
 		stmt.executeUpdate("INSERT INTO cards VALUES ("
 				+ code
-				+ ", '" + balance + ");");
+				+ ", " + balance + ");");
 		conn.commit();
 		conn.close();
 		return code;

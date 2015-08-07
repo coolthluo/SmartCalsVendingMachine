@@ -2,12 +2,12 @@
 
 public class Const {
 	public final static int SERVER_PORT = 1971;
-	public final static String SERVER_HOST = "localhost";
+//	public final static String SERVER_HOST = "localhost";
 	public final static String OK = "OK";
 	public final static String ERROR = "ERROR";
 	
 	//customer constants
-	public final static String ADD_CARD = "ADD_CARD";
+	public final static String BUY_CARD = "BUY_CARD";
 	public final static String CHECK_BALANCE = "CHECK_BALANCE";
 	public final static String UPDATE_BALANCE = "UPDATE_BALANCE";
 	
@@ -23,7 +23,7 @@ public class Const {
 	public final static String DELETE_ITEM_FROM_MACHINE = "DELETE_ITEM_FROM_MACHINE";
 	
 	//machine constants
-	public final static String GET_UPDATED_ITEMS = "GET_UPDATED_ITEMS";
+	public final static String GET_UPDATED_IDS = "GET_UPDATED_IDS";
 	public final static String ADD_SALE = "ADD_SALE";
 	
 	//manager constants

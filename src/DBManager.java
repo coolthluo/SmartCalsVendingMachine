@@ -24,10 +24,10 @@ public interface DBManager {
 	public void updateMachineItemQuantity(int machine, int item, int quantity) throws Exception;	
 	public ArrayList<MachineItem> getItemsOfMachine(int code);	
 	public ArrayList<Item> getUpdatedItems(int code);
-	public void addSale(int machine, int item, String date) throws Exception;
+	public void addSale(int machine, int item, double profit, String date) throws Exception;
 	public int getNumberOfSales(int machine, int item, String startDate, String endDate) throws Exception;
 	public int addCard(double balance) throws Exception;
 	public double checkBalance(int card);
-	public double updateBalance(int card, double deduct) throws Exception;
+	public double updateBalance(int card, double deduction) throws Exception;
 	
 }

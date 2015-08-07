@@ -35,25 +35,21 @@ public class VMServerStub implements Runnable {
 
 					try {
 						//customer commands
-						if (command.equals(Const.ADD_CARD)) {
-							int result = customer.addCard(Double.parseDouble(tokens[1]));
+						if (command.equals(Const.BUY_CARD)) {
+							int result = customer.buyCard(Double.parseDouble(tokens[1]));
 							response = Const.OK + result;
 						} else if (command.equals(Const.CHECK_BALANCE)) {
 							double result = customer.checkBalance(Integer.parseInt(tokens[1]));
-							if (result < 0) {
-								response = Const.ERROR + "Check balance failed";
-							} else {
-								response = Const.OK + result;
-							}
+							response = Const.OK + result;
 						} else if (command.equals(Const.UPDATE_BALANCE)) {
 							double result = customer.updateBalance(Integer.parseInt(tokens[1]), 	//cardid
 									Double.parseDouble(tokens[2]));									//deduct
 							if (result < 0) {
-								response = Const.ERROR + "Check balance failed";
+								response = Const.ERROR;
 							} else {
 								response = Const.OK + result;
 							}
-						} 
+						}
 						
 						//employee commands
 						else if (command.equals(Const.AUTHENTICATE)) {
@@ -104,14 +100,15 @@ public class VMServerStub implements Runnable {
 						} 
 						
 						//machine commands
-						else if (command.equals(Const.GET_UPDATED_ITEMS)) {
-							String result = machine.getUpdatedItems(Integer
+						else if (command.equals(Const.GET_UPDATED_IDS)) {
+							String result = machine.getUpdatedIDs(Integer
 									.parseInt(tokens[1])); // machineid
 							response = Const.OK + result;
 						} else if (command.equals(Const.ADD_SALE)) {
 							machine.addSale(Integer.parseInt(tokens[1]),		// machineid
 									Integer.parseInt(tokens[2]),			// itemid
-									tokens[3]);								// date
+									Double.parseDouble(tokens[3]),			// profit
+									tokens[4]);								// date
 							response = Const.OK;
 						} 
 						

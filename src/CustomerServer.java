@@ -1,7 +1,7 @@
 
 public interface CustomerServer extends Server {
 
-	public int addCard(double balance) throws Exception;
+	public int buyCard(double balance) throws Exception;
 	
 	public double checkBalance(int card) throws Exception;
 	

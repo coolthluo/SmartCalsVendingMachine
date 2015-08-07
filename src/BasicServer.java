@@ -1,13 +1,13 @@
-
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class BasicServer implements CustomerServer, EmployeeServer, MachineServer, ManagerServer {
+	
 	DBManager dbm;
+	
 	public BasicServer(DBManager db) {
 		dbm = db;
 		VendingMachineServer.setCustomerInstance(this);
@@ -17,7 +17,7 @@ public class BasicServer implements CustomerServer, EmployeeServer, MachineServe
 	}
 
 	//methods in CustomerServer
-	public int addCard(double balance) throws Exception {
+	public int buyCard(double balance) throws Exception {
 		return dbm.addCard(balance);
 	}
 
@@ -26,6 +26,10 @@ public class BasicServer implements CustomerServer, EmployeeServer, MachineServe
 	}
 	
 	public double updateBalance(int card, double deduction) throws Exception {
+		double balance = checkBalance(card);
+		if(balance < deduction){
+			return -1;
+		}
 		return dbm.updateBalance(card, deduction);
 	}
 	
@@ -84,29 +88,35 @@ public class BasicServer implements CustomerServer, EmployeeServer, MachineServe
 	}
 
 	//methods in MachineServer
-	public String getUpdatedItems(int machineid) throws Exception {
+	public String getUpdatedIDs(int machineid) throws Exception {
 		dbm.updateMachineSyncDate(machineid, getTime());
 		ArrayList<Item> items = dbm.getUpdatedItems(machineid);
-		JSONObject obj = new JSONObject();
-		JSONArray list = new JSONArray();
-		Item item;
+		String result = "";
 		for (int i = 0; i < items.size(); i++){
-			item = items.get(i);
-			JSONObject itemJson = new JSONObject();
-			itemJson.put("id", item.getID());
-			itemJson.put("name", item.getName());
-			itemJson.put("type", item.getType());
-			itemJson.put("info", item.getInfo());
-			itemJson.put("pic", item.getPic());
-			itemJson.put("price", item.getPrice());
-			list.put(itemJson);
+			result += items.get(i).getID() + " ";
 		}
-		obj.put("items", list);
-		return obj.toString();
+		return result.substring(0, result.length()-1);
+		
+//		JSONObject obj = new JSONObject();
+//		JSONArray list = new JSONArray();
+//		Item item;
+//		for (int i = 0; i < items.size(); i++){
+//			item = items.get(i);
+//			JSONObject itemJson = new JSONObject();
+//			itemJson.put("id", item.getID());
+//			itemJson.put("name", item.getName());
+//			itemJson.put("type", item.getType());
+//			itemJson.put("info", item.getInfo());
+//			itemJson.put("pic", item.getPic());
+//			itemJson.put("price", item.getPrice());
+//			list.put(itemJson);
+//		}
+//		obj.put("items", list);
+//		return obj.toString();
 	}
 	
-	public void addSale(int machineid, int itemid, String date) throws Exception {
-		dbm.addSale(machineid, itemid, date);
+	public void addSale(int machineid, int itemid, double profit, String date) throws Exception {
+		dbm.addSale(machineid, itemid, profit, date);
 	}
 	
 	//methods in ManagerServer
