@@ -12,4 +12,6 @@ public interface MachineServer extends Server {
 	
 	public void addSale(int machineid, int itemid, double profit, String date) throws Exception;
 	
+	public void updateSyncDate(int machine) throws Exception;
+	
 }

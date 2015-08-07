@@ -110,6 +110,9 @@ public class VMServerStub implements Runnable {
 									Double.parseDouble(tokens[3]),			// profit
 									tokens[4]);								// date
 							response = Const.OK;
+						} else if (command.equals(Const.UPDATE_SYNC_DATE)) {
+							machine.updateSyncDate(Integer.parseInt(tokens[1]));		// machineid
+							response = Const.OK;
 						} 
 						
 						//manager commands

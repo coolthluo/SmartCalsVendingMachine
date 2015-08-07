@@ -25,6 +25,7 @@ public class Const {
 	//machine constants
 	public final static String GET_UPDATED_IDS = "GET_UPDATED_IDS";
 	public final static String ADD_SALE = "ADD_SALE";
+	public final static String UPDATE_SYNC_DATE = "UPDATE_SYNC_DATE";
 	
 	//manager constants
 	public final static String AUTHENTICATE_MANAGER = "AUTH_MAN";

@@ -217,7 +217,7 @@ public class Database implements DBManager {
 		conn.setAutoCommit(false);
 		Statement stmt = conn.createStatement(
 				ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		stmt.executeUpdate("UPDATE machines SET lastsyne = '" + date
+		stmt.executeUpdate("UPDATE machines SET lastsync = '" + date
 				+ "' WHERE ID=" + code + ";");
 		conn.commit();
 		conn.close();

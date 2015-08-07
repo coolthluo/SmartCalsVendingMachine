@@ -89,8 +89,10 @@ public class BasicServer implements CustomerServer, EmployeeServer, MachineServe
 
 	//methods in MachineServer
 	public String getUpdatedIDs(int machineid) throws Exception {
-		dbm.updateMachineSyncDate(machineid, getTime());
 		ArrayList<Item> items = dbm.getUpdatedItems(machineid);
+		if(items.size() == 0){
+			return "";
+		}
 		String result = "";
 		for (int i = 0; i < items.size(); i++){
 			result += items.get(i).getID() + " ";
@@ -117,6 +119,10 @@ public class BasicServer implements CustomerServer, EmployeeServer, MachineServe
 	
 	public void addSale(int machineid, int itemid, double profit, String date) throws Exception {
 		dbm.addSale(machineid, itemid, profit, date);
+	}
+	
+	public void updateSyncDate(int machine) throws Exception {
+		dbm.updateMachineSyncDate(machine, getTime());
 	}
 	
 	//methods in ManagerServer
