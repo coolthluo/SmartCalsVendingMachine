@@ -1,3 +1,4 @@
+//Item class, holding information of an item
 import java.sql.ResultSet;
 
 public class Item {

@@ -1,8 +1,7 @@
-
-
+//socket constants shared through out the system
 public class Const {
+	
 	public final static int SERVER_PORT = 1971;
-//	public final static String SERVER_HOST = "localhost";
 	public final static String OK = "OK";
 	public final static String ERROR = "ERROR";
 	
@@ -38,4 +37,5 @@ public class Const {
 	public final static String GET_MACHINE = "GET_MACHINE";
 	public final static String GET_MACHINE_ITEMS = "GET_MACHINE_ITEMS";
 	public final static String GET_NUMBER_SALES = "GET_NUMBER_SALES";
+	
 }

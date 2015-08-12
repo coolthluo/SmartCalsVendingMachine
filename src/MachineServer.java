@@ -1,4 +1,4 @@
-
+//MachineServer interface, defining an interface for machine-server communication
 public interface MachineServer extends Server {
 
 	public String getUpdatedIDs(int machineid) throws Exception;
