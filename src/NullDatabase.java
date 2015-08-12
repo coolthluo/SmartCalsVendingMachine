@@ -28,7 +28,7 @@ public class NullDatabase implements DBManager {
 	}
 
 	public Item getItem(int code) {
-		Item item = new Item(0, "", "", "", "", 0, "");
+		Item item = new Item(0, "", "", "", 0, 0, "", 0, "");
 		return item;
 	}
 
