@@ -71,6 +71,8 @@ public class BasicServer implements CustomerServer, EmployeeServer, MachineServe
 		obj.put("name", item.getName());
 		obj.put("price", item.getPrice());
 		obj.put("type", item.getType());
+		obj.put("calories", item.getCalories());
+		obj.put("sugar", item.getSugar());
 		obj.put("info", item.getInfo());
 		obj.put("pic", item.getPic());
 		return obj.toString();
