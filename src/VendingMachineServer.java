@@ -1,4 +1,7 @@
-
+/* 
+ * VendingMachineServer, holding a singleton for each type of servers and is in charge of 
+ * starting a server stub to directly communicate with each client through socket
+*/
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -7,7 +10,6 @@ public class VendingMachineServer implements Runnable {
 	static CustomerServer customerSingleton;
 	static EmployeeServer employeeSingleton;
 	static MachineServer machineSingleton;
-	static ManagerServer managerSingleton;
 
 	static void setCustomerInstance(CustomerServer instance) {
 		customerSingleton = instance;
@@ -19,10 +21,6 @@ public class VendingMachineServer implements Runnable {
 
 	static void setMachineInstance(MachineServer instance) {
 		machineSingleton = instance;
-	}
-
-	static void setManagerInstance(ManagerServer instance) {
-		managerSingleton = instance;
 	}
 
 	public static CustomerServer getCustomerInstance() {
@@ -37,17 +35,13 @@ public class VendingMachineServer implements Runnable {
 		return machineSingleton;
 	}
 
-	public static ManagerServer getManagerInstance() {
-		return managerSingleton;
-	}
-
 	public void run() {
 		try {
 			ServerSocket ss = new ServerSocket(Const.SERVER_PORT);
 			while (true) {
 				Socket sk = ss.accept();
 				VMServerStub stub = new VMServerStub(sk, getCustomerInstance(), 
-						getEmployeeInstance(), getMachineInstance(), getManagerInstance());
+						getEmployeeInstance(), getMachineInstance());
 				(new Thread(stub)).start();
 			}
 		} catch (Exception ex) {

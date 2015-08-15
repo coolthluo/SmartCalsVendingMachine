@@ -1,14 +1,13 @@
-
-
+//concrete database: the real object
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
 
-public class Database implements DBManager {
+public class SQLDatabase implements DBManager {
 	private String connection;
 	Properties property;
 
-	public Database() {
+	public SQLDatabase() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e1) {
@@ -19,7 +18,7 @@ public class Database implements DBManager {
 		property.put("password", "peach");
 	}
 
-	public Database(String connection, String user, String pwd) {
+	public SQLDatabase(String connection, String user, String pwd) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e1) {
@@ -35,55 +34,6 @@ public class Database implements DBManager {
 		Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_READ_ONLY);
 		return stmt.executeQuery(query);
-	}
-
-	public int addItem(Item item) throws Exception {
-		Connection conn = DriverManager.getConnection(connection, property);
-		conn.setAutoCommit(false);
-		Statement stmt = conn.createStatement(
-				ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		ResultSet rs = stmt.executeQuery("SELECT MAX(ID) AS M FROM items");
-		int code;
-		if (rs.next()) {
-			code = rs.getInt("M") + 1;
-		} else {
-			code = 1;
-		}
-		stmt.executeUpdate("INSERT INTO items VALUES (" + code
-				+ ", '" + item.getName()
-				+ "', " + item.getPrice()
-				+ ", '" + item.getType()
-				+ "', '" + item.getInfo()
-				+ "', '" + item.getLastMod() + "');");
-		conn.commit();
-		conn.close();
-		return code;
-	}
-	
-	public void deleteItem(int code) throws Exception {
-		Connection conn = DriverManager.getConnection(connection, property);
-		conn.setAutoCommit(false);
-		Statement stmt = conn.createStatement(
-				ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		stmt.executeUpdate("DELETE FROM items WHERE ID=" + code + ";");
-		conn.commit();
-		conn.close();
-	}
-
-	public void updateItem(Item item) throws Exception {
-		Connection conn = DriverManager.getConnection(connection, property);
-		conn.setAutoCommit(false);
-		Statement stmt = conn.createStatement(
-				ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		stmt.executeUpdate("UPDATE items SET name = '" + item.getName()
-				+ "', price=" + item.getPrice()
-				+ ", type='" + item.getType()
-				+ "', info='" + item.getInfo()
-				+ "', pic='" + item.getPic()
-				+ "', lastmod='" + item.getLastMod()
-				+ "' WHERE ID=" + item.getID() + ";");
-		conn.commit();
-		conn.close();
 	}
 
 	public ArrayList<Item> getAllItems() {
@@ -126,52 +76,6 @@ public class Database implements DBManager {
 			e.printStackTrace();
 		}
 		return items;
-	}
-
-	public int addEmployee(Employee e) throws Exception {
-		Connection conn = DriverManager.getConnection(connection, property);
-		conn.setAutoCommit(false);
-		Statement stmt = conn.createStatement(
-				ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		ResultSet rs = stmt.executeQuery("SELECT MAX(ID) AS M FROM employees;");
-		int code;
-		if (rs.next()) {
-			code = rs.getInt("M") + 1;
-		} else {
-			code = 1;
-		}
-		stmt.executeUpdate("INSERT INTO employees VALUES ("
-				+ code
-				+ ", '" + e.getName()
-				+ "', '" + e.getPassword()
-				+ "', " + e.isManager() + ");");
-		conn.commit();
-		conn.close();
-		return code;
-	}
-	
-	public void deleteEmployee(int code) throws Exception {
-		Connection conn = DriverManager.getConnection(connection, property);
-		conn.setAutoCommit(false);
-		Statement stmt = conn.createStatement(
-				ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		stmt.executeUpdate("DELETE FROM employees WHERE ID=" + code + ";");
-		conn.commit();
-		conn.close();
-	}
-	
-	public ArrayList<Employee> getAllEmployees() {
-		ArrayList<Employee> employees = new ArrayList<Employee>();
-		try {
-			ResultSet rs = select("SELECT * FROM employees;");
-			while (rs.next()) {
-				employees.add(new Employee(rs));
-			}
-			rs.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return employees;
 	}
 	
 	public Employee getEmployee(int code) {
@@ -217,16 +121,6 @@ public class Database implements DBManager {
 		return count;
 	}
 	
-	public void deleteMachine(int code) throws Exception {
-		Connection conn = DriverManager.getConnection(connection, property);
-		conn.setAutoCommit(false);
-		Statement stmt = conn.createStatement(
-				ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		stmt.executeUpdate("DELETE FROM machines WHERE ID=" + code + ";");
-		conn.commit();
-		conn.close();
-	}
-	
 	public void updateMachineSyncDate(int code, String date) throws Exception {
 		Connection conn = DriverManager.getConnection(connection, property);
 		conn.setAutoCommit(false);
@@ -236,36 +130,6 @@ public class Database implements DBManager {
 				+ "' WHERE ID=" + code + ";");
 		conn.commit();
 		conn.close();
-	}
-
-	public ArrayList<Machine> getAllMachines() {
-		ArrayList<Machine> machines = new ArrayList<Machine>();
-		try {
-			ResultSet rs = select("SELECT * FROM machines;");
-			while (rs.next()) {
-				machines.add(new Machine(rs));
-			}
-			rs.close();
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return machines;
-	}
-
-	public Machine getMachine(int code) {
-		Machine machine = null;
-		try {
-			ResultSet rs = select("SELECT * FROM machines WHERE ID=" + code + ";");
-			if (rs.next()) {
-				machine = new Machine(rs);
-			}
-			rs.close();
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return machine;
 	}
 
 	public void addItemToMachine(int machine, int item, int capacity, int quantity) throws Exception {
@@ -300,21 +164,6 @@ public class Database implements DBManager {
 		conn.close();
 	}
 	
-	public ArrayList<MachineItem> getItemsOfMachine(int code) {
-		ArrayList<MachineItem> items = new ArrayList<MachineItem>();
-		try {
-			ResultSet rs = select("SELECT * FROM machine_item WHERE machineid=" + code + ";");
-			while (rs.next()) {
-				items.add(new MachineItem(rs));
-			}
-			rs.close();
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return items;
-	}
-	
 	public ArrayList<Item> getUpdatedItems (int code) {
 		ArrayList<Item> items = new ArrayList<Item>();
 		try {
@@ -340,22 +189,6 @@ public class Database implements DBManager {
 				+ machine + ", " + item + ", " + profit + ", '" + date + "');");
 		conn.commit();
 		conn.close();
-	}
-
-	public int getNumberOfSales(int machine, int item, String startDate, String endDate) throws Exception {
-		int count = 0;
-		try {
-			ResultSet rs = select("SELECT COUNT(*) AS C FROM sales WHERE machineid="
-					+ machine + " AND itemid=" + item + " AND date>='" + startDate + "' AND date<='" + endDate + "';");
-			if (rs.next()) {
-				count = rs.getInt("C");
-			}
-			rs.close();
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return count;
 	}
 	
 	public int addCard(double balance) throws Exception {

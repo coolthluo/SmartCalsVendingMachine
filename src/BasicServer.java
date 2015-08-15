@@ -1,19 +1,20 @@
+//server real object, implementing the same interfaces as the proxies
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
 
-public class BasicServer implements CustomerServer, EmployeeServer, MachineServer, ManagerServer {
+public class BasicServer implements CustomerServer, EmployeeServer, MachineServer {
 	
 	DBManager dbm;
 	
+	//constructor
 	public BasicServer(DBManager db) {
 		dbm = db;
 		VendingMachineServer.setCustomerInstance(this);
 		VendingMachineServer.setEmployeeInstance(this);
 		VendingMachineServer.setMachineInstance(this);
-		VendingMachineServer.setManagerInstance(this);
 	}
 
 	//methods in CustomerServer
@@ -71,6 +72,8 @@ public class BasicServer implements CustomerServer, EmployeeServer, MachineServe
 		obj.put("name", item.getName());
 		obj.put("price", item.getPrice());
 		obj.put("type", item.getType());
+		obj.put("calories", item.getCalories());
+		obj.put("sugar", item.getSugar());
 		obj.put("info", item.getInfo());
 		obj.put("pic", item.getPic());
 		return obj.toString();
@@ -107,23 +110,6 @@ public class BasicServer implements CustomerServer, EmployeeServer, MachineServe
 			result += items.get(i).getID() + " ";
 		}
 		return result.substring(0, result.length()-1);
-		
-//		JSONObject obj = new JSONObject();
-//		JSONArray list = new JSONArray();
-//		Item item;
-//		for (int i = 0; i < items.size(); i++){
-//			item = items.get(i);
-//			JSONObject itemJson = new JSONObject();
-//			itemJson.put("id", item.getID());
-//			itemJson.put("name", item.getName());
-//			itemJson.put("type", item.getType());
-//			itemJson.put("info", item.getInfo());
-//			itemJson.put("pic", item.getPic());
-//			itemJson.put("price", item.getPrice());
-//			list.put(itemJson);
-//		}
-//		obj.put("items", list);
-//		return obj.toString();
 	}
 	
 	public void addSale(int machineid, int itemid, double profit, String date) throws Exception {
@@ -132,15 +118,6 @@ public class BasicServer implements CustomerServer, EmployeeServer, MachineServe
 	
 	public void updateSyncDate(int machine) throws Exception {
 		dbm.updateMachineSyncDate(machine, getTime());
-	}
-	
-	//methods in ManagerServer
-	public String authenticateManager(int code, String password)
-	{
-		Employee employee=dbm.getEmployee(code);
-		if (employee!=null && employee.isManager() && employee.getPassword().equals(password))
-			return employee.getName();
-		return null;
 	}
 
 	//private methods
