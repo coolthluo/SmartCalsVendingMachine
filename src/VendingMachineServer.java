@@ -40,12 +40,15 @@ public class VendingMachineServer implements Runnable {
 			ServerSocket ss = new ServerSocket(Const.SERVER_PORT);
 			while (true) {
 				Socket sk = ss.accept();
+				System.out.println("Connection Ok");
 				VMServerStub stub = new VMServerStub(sk, getCustomerInstance(), 
 						getEmployeeInstance(), getMachineInstance());
 				(new Thread(stub)).start();
+				
 			}
+			
 		} catch (Exception ex) {
-			System.out.println("Error: " + ex.getMessage());
+			System.out.println("Error: " + ex);
 		}
 	}
 }

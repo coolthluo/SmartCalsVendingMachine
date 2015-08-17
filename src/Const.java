@@ -1,7 +1,7 @@
 //socket constants shared through out the system
 public class Const {
 	
-	public final static int SERVER_PORT = 1971;
+	public final static int SERVER_PORT = 14173;
 	public final static String OK = "OK";
 	public final static String ERROR = "ERROR";
 	

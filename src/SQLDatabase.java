@@ -12,10 +12,11 @@ public class SQLDatabase implements DBManager {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e1) {
 		}
+//		connection = "jdbc:mysql://127.0.0.1/smartcalsvendingmachine";
 		connection = "jdbc:mysql://127.0.0.1/smartcalsvendingmachine";
 		property = new Properties();
-		property.put("user", "shan");
-		property.put("password", "peach");
+		property.put("user", "root");
+		property.put("password", "3hkyw198");
 	}
 
 	public SQLDatabase(String connection, String user, String pwd) {
