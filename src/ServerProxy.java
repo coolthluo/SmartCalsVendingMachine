@@ -1,20 +1,26 @@
 //server real object, implementing the same interfaces as the proxies
-import java.nio.file.Files;
-import java.nio.file.Paths;
+//a singleton
+//handles requests by talking to database layer
+//uses a bridge pattern to allow usage of different database implementations
 import java.util.ArrayList;
-
 import org.json.JSONObject;
 
-public class BasicServer implements CustomerServer, EmployeeServer, MachineServer {
+public class ServerProxy implements CustomerServerService, EmployeeServerService, MachineServerService {
 	
-	DBManager dbm;
+	private static ServerProxy singleton = new ServerProxy();
+	private DBManager dbm;
 	
-	//constructor
-	public BasicServer(DBManager db) {
+	//protected constructor
+	protected ServerProxy() {}
+	
+	//instance() method to get a CentralServer singleton
+	public static ServerProxy instance(){
+		return singleton;
+	}
+	
+	//set database implementation
+	public void setDatabase(DBManager db) {
 		dbm = db;
-		VendingMachineServer.setCustomerInstance(this);
-		VendingMachineServer.setEmployeeInstance(this);
-		VendingMachineServer.setMachineInstance(this);
 	}
 
 	//methods in CustomerServer
@@ -88,7 +94,7 @@ public class BasicServer implements CustomerServer, EmployeeServer, MachineServe
 	}
 	
 	public String getFile(String path) throws Exception {
-		return new String(Files.readAllBytes(Paths.get(path)));
+		return dbm.getFile(path);
 	}
 	
 	public void updateMachineItemQuantity(int machineid, int itemid, int quantity) throws Exception {

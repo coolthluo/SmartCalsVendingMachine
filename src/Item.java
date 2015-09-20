@@ -12,7 +12,7 @@ public class Item {
 	private String picture;
 	private String lastmod;
 
-	public Item(int c, String n, String pi, String t, int ca, int s, String i, double p, String d) {
+	public Item(int c, String n, double p, String t, int ca, int s, String i, String pi, String d) {
 		code = c;
 		name = n;
 		price = p;

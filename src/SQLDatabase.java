@@ -1,4 +1,6 @@
-//concrete database: the real object
+//concrete database: mysql database that stores all the data persistently
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -12,7 +14,6 @@ public class SQLDatabase implements DBManager {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e1) {
 		}
-//		connection = "jdbc:mysql://127.0.0.1/smartcalsvendingmachine";
 		connection = "jdbc:mysql://127.0.0.1/smartcalsvendingmachine";
 		property = new Properties();
 		property.put("user", "root");
@@ -30,7 +31,7 @@ public class SQLDatabase implements DBManager {
 		property.put("password", pwd);
 	}
 
-	ResultSet select(String query) throws SQLException {
+	private ResultSet select(String query) throws SQLException {
 		Connection conn = DriverManager.getConnection(connection, property);
 		Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY,
 				ResultSet.CONCUR_READ_ONLY);
@@ -212,10 +213,10 @@ public class SQLDatabase implements DBManager {
 		return code;
 	}
 	
-	public double checkBalance(int card) {
+	public double checkBalance(int code) {
 		double balance = 0;
 		try {
-			ResultSet rs = select("SELECT balance FROM cards WHERE ID="	+ card  + ";");
+			ResultSet rs = select("SELECT balance FROM cards WHERE ID="	+ code  + ";");
 			if (rs.next()) {
 				balance = rs.getDouble("balance");
 			}
@@ -227,18 +228,21 @@ public class SQLDatabase implements DBManager {
 		return balance;
 	}
 	
-	public double updateBalance(int card, double deduction) throws Exception {
-		double oldBalance = checkBalance(card);
+	public double updateBalance(int code, double deduction) throws Exception {
+		double oldBalance = checkBalance(code);
 		double newBalance = oldBalance - deduction;
 		Connection conn = DriverManager.getConnection(connection, property);
 		conn.setAutoCommit(false);
 		Statement stmt = conn.createStatement(
 				ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		stmt.executeUpdate("UPDATE cards SET balance = " + newBalance
-				+ " WHERE ID=" + card + ";");
+				+ " WHERE ID=" + code + ";");
 		conn.commit();
 		conn.close();
 		return newBalance;
 	}
 
+	public String getFile(String path) throws Exception {
+		return new String(Files.readAllBytes(Paths.get(path)));
+	}
 }

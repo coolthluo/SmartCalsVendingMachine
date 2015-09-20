@@ -1,4 +1,4 @@
-//database null object
+//concrete database: null object
 import java.util.ArrayList;
 
 public class NullDatabase implements DBManager {
@@ -14,7 +14,7 @@ public class NullDatabase implements DBManager {
 	}
 
 	public Item getItem(int code) {
-		Item item = new Item(0, "", "", "", 0, 0, "", 0, "");
+		Item item = new Item(0, "", 0, "", 0, 0, "", "", "");
 		return item;
 	}
 	
@@ -61,6 +61,10 @@ public class NullDatabase implements DBManager {
 	
 	public double updateBalance(int card, double deduction) throws Exception {
 		return 0;
+	}
+	
+	public String getFile(String path) throws Exception {
+		return "";
 	}
 
 }

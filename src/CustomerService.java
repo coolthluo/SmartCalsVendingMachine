@@ -1,5 +1,5 @@
 //CustomerServer interface, defining an interface for customer-server communication
-public interface CustomerServer extends Server {
+public interface CustomerService {
 
 	public int buyCard(double balance) throws Exception;
 	
